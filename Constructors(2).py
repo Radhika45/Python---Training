@@ -14,11 +14,12 @@ class FlightBooking:
 
     def show(self):
         print("~~~~~~~~~~~~~~~~~~~~~~")
-        print("Booking 1 Data: ")
+        print("Booking 2 Data: ")
         print("FROM: ",self.fromLocation,"TO: ",self.toLocation)
         print("~~~~~~~~~~~~~~~~~~~~~~")
 
 #Booking1 is Obj for FlightBooking class
+print("------------------Parameterized Constructors----------------")
 Booking1 = FlightBooking("NewDelhi","Bengaluru","18th June,2024", 1,"Economy")
 print("Booking1: ",Booking1)
 print("Booking1 Data: ")
@@ -27,7 +28,7 @@ print(vars(Booking1))
 Booking1.show() #It will print whatever will be present in show()function
 
 #Booking2 is Obj for FlightBooking class
-Booking2 = FlightBooking("Chennai", "Bengaluru", "18th June, 2024", 1, "premium")
+Booking2 = FlightBooking("Chennai", "Bengaluru", "18th June, 2024", 1, "Premium")
 print("Booking 2:", Booking2)
 print("Booking2 data:")
 print(vars(Booking2))

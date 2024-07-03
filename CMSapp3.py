@@ -43,7 +43,7 @@ def main():
             customer.show()
             customer.update_customer_details()
             
-            sql = "update Customer set name = '{name}', phone= '{phone}', email= '{email}',age= '{age}',gender= '{gender}',created_on ='{created_on}' where cid ={cid}".format_map(vars(customer))
+            sql = "update Customer set name = '{name}', phone= '{phone}', email= '{email}',age= {age} ,gender= '{gender}',created_on ='{created_on}' where cid ={cid}".format_map(vars(customer))
            
             db.write(sql)
 
