@@ -4,6 +4,7 @@
 
 Framework - It is the set of tools used to create other web applications
 """
+#Software As A Service Project
 
 from flask import *
 import datetime
@@ -41,6 +42,29 @@ def index():
 def register():
     return render_template("register.html")
 
+@web_app.route("/home")
+def home():
+    if len(session["email"]) != 0:
+        return render_template("home.html", name= session["name"], email= session["email"])
+
+    else:
+        return redirect("/")
+    
+@web_app.route("/success")
+def success():
+    return render_template("success.html", name= session["name"], email= session["email"])
+
+@web_app.route("/error")
+def error():
+    return render_template("error.html", name= session["name"], email= session["email"])
+
+@web_app.route("/logout")
+def logout():
+    session["email"] = ""
+    session["name"] =  ""
+    return redirect("/")
+
+
 @web_app.route("/add-user", methods=["POST"])
 def add_user_in_db():
     #Create a Dictionary with data from HTML Register Form -> It act as Document
@@ -63,7 +87,7 @@ def add_user_in_db():
     session['name'] = user_data["name"]
     session['email']= user_data["email"]
     
-    return render_template("home.html",name = session['name'] ,email= session['email'])
+    return render_template("home.html", name = session['name'] , email= session['email'])
 
 @web_app.route("/fetch-user", methods=["POST"])
 def fetch_user_from_db():
@@ -77,8 +101,6 @@ def fetch_user_from_db():
     result = db_helper.fetch(query=user_data)
     print("result:",result)
     
-
-
     if len(result)>0:
         user_data = result[0] #Get the dictionary from List
         session['email'] = user_data["email"]
@@ -87,7 +109,7 @@ def fetch_user_from_db():
         return render_template("home.html", name = session['name'],email=session['email'])
     
     else:
-        return "User Not Found.Please Try Again"
+        return render_template("error.html", message="User not Found.Please Try Again", name= session["name"],email=session["email"])
     
 
 @web_app.route("/add-patient", methods=["POST"])
@@ -108,12 +130,14 @@ def add_patient_in_db():
     #Save User in database
     db_helper.collection = db_helper.db["patients"]
     result= db_helper.insert(patient_data)
-    message = "Patient Added Successfully.."
-    return message
+    return render_template("success.html", message = "Patient Added Successfully..", name=session["name"], email = session["email"])
 
 
 @web_app.route("/fetch-patients")
 def fetch_patients_from_db():
+
+    if len(session["email"]) == 0:
+        return redirect("/")
 
     user_data ={
         "doctor_email":session["email"],
@@ -121,14 +145,16 @@ def fetch_patients_from_db():
     
     db_helper.collection = db_helper.db["patients"]
     result = db_helper.fetch(query=user_data)
-    print("result:",result)
+    #result here is a list of documents(dictionary) from Mongo DB
     
 
     if len(result)>0:
         print(result)
-        return "Patients Fetched"    
+        return render_template("patients.html", patients = result, 
+                               name= session["name"], email=session["email"]) 
     else:
-        return "Patients Not Found.Please Try Again"
+        return render_template("error.html", message="Patients not Found. Please Try Again !",name= session["name"], email=session["email"])
+    
 
 
 def main():
@@ -139,6 +165,5 @@ def main():
     web_app.run() #(port number)
 
 
-
-if __name__ =="__main__":
+if __name__ == "__main__":
     main()
