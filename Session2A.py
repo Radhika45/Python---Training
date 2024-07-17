@@ -10,6 +10,7 @@ from flask import *
 import datetime
 import hashlib
 from Session1C import MongoDBHelper
+from bson.objectid import ObjectId
 
 #Create the Object of Flask -> It represents 
 
@@ -92,12 +93,14 @@ def add_user_in_db():
 @web_app.route("/fetch-user", methods=["POST"])
 def fetch_user_from_db():
 
+    #Create a Dictionary with Data from HTML Register Form
     user_data ={
         "email":request.form["email"],
         "password":hashlib.sha256(request.form["password"].encode('utf-8')).hexdigest(),
     }
     
     db_helper.collection = db_helper.db["users"]
+    #Fetch user in Database i.e MongoDB
     result = db_helper.fetch(query=user_data)
     print("result:",result)
     
@@ -129,8 +132,67 @@ def add_patient_in_db():
 
     #Save User in database
     db_helper.collection = db_helper.db["patients"]
+    #Save patient in Database i.e MongoDb
     result= db_helper.insert(patient_data)
     return render_template("success.html", message = "Patient Added Successfully..", name=session["name"], email = session["email"])
+
+@web_app.route("/update-patient/<id>")
+def update_patient(id):
+    print("Patinet to be updated:", id)
+    
+    # Save Patient ID in Session, which needs to be updated
+    session["id"] = id
+    
+    # Fetch document from patient collection, where id matches
+    query = {"_id": ObjectId(id)}
+    db_helper.collection = db_helper.db["patients"]
+    
+    # result is a list
+    result = db_helper.fetch(query=query)
+    
+    # As we will get the list of documents, and 0th index will be our document
+    # with patient id matching the one we have passed
+    patient_doc = result[0]
+
+    return render_template("update-patient.html",
+                           name=session["name"], 
+                           email=session["email"], 
+                           patient=patient_doc)
+
+
+@web_app.route("/delete-patient/<id>")
+def delete_patient(id):
+    print("Patinet to be deleted:", id)
+    query = {"_id": ObjectId(id)}
+    db_helper.collection = db_helper.db["patients"]
+    db_helper.delete(query)
+    return render_template("success.html", message = "Patient Deleted Successfully",
+                           name=session["name"], email=session["email"])
+
+
+@web_app.route("/update-patient-in-db", methods=["POST"])
+def update_patient_in_db():
+
+    # Create a Dictionary with Data from HTML Register Form
+    patient_data = {
+        "name": request.form["name"],
+        "email": request.form["email"],
+        "phone": request.form["phone"],
+        "gender": request.form["gender"],
+        "age": int(request.form["age"]),
+        "address": request.form["address"],
+        "doctor_email": session['email'],
+        "doctor_name": session['name'],
+        "created_on": datetime.datetime.now()
+    }
+
+    db_helper.collection = db_helper.db["patients"]
+
+    query = {"_id": ObjectId(session["id"])}
+    # Save Patient in DataBase i.e. MongoDB
+    result = db_helper.update(patient_data, query)
+    return render_template("success.html", message = "Patient Updated Successfully",
+                           name=session["name"], email=session["email"])
 
 
 @web_app.route("/fetch-patients")

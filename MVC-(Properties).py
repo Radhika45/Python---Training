@@ -31,8 +31,8 @@ len =      1, 2, 3    """
 
 my_data = [10,20,30]
 
-print(my_data[0])  # 0th Index will print = 10
-print(my_data[-1]) # -1th Index will print = 30
+print("my_data[0]: ",my_data[0])  # 0th Index will print = 10
+print("my_data[2]: ",my_data[2]) # -1th Index will print = 30
 print(len(my_data))# length = 3
 print()
 
