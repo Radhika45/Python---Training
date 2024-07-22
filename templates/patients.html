@@ -23,7 +23,7 @@
                   <a class="nav-link " href="/home">Home</a>
                 </li>
                <li class="nav-item">
-                  <a class="nav-link" href="#">Add Consultation</a>
+                  <a class="nav-link" href="/add-consultation">Add Consultation</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="#">View Consultations</a>
@@ -69,7 +69,11 @@
                   <td>{{patient['age']}}</td>
                   <td>{{patient['address']}}</td>
                   <td>{{patient['created_on']}}</td>
-                  <td><a href = "/update-patient/{{patient['_id']}}">Update</a> | <a href="/delete-patient/{{patient['_id']}}"> Delete </a></td>
+                  <td><a href="/update-patient/{{patient['_id']}}">Update</a> 
+                    | <a href="/delete-patient/{{patient['_id']}}">Delete</a> 
+                    | <a href="/add-consultation/{{patient['_id']}}">Add Consultation</a>
+                    | <a href="/view-consultations/{{patient['_id']}}">View Consultations</a>
+                    </td>
                 </tr>
                 {% endfor %}
               </tbody>
