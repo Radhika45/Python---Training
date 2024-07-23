@@ -240,9 +240,7 @@ def add_consultation_in_db():
                            name=session["name"], email=session["email"])
 
 
-@web_app.route("/view-consultations/<id>")
-def view_consultations(id):
-    pass
+
 
 
 @web_app.route("/fetch-patients")
@@ -267,8 +265,53 @@ def fetch_patients_from_db():
     else:
         return render_template("error.html", message="Patients not Found. Please Try Again !",name= session["name"], email=session["email"])
     
+@web_app.route("/fetch-consultations")
+def fetch_consultations_from_db():
 
+    if len(session["email"]) == 0:
+        return redirect("/")
 
+    user_data ={
+        "doctor_email":session["email"],
+    }
+    
+    db_helper.collection = db_helper.db["consultations"]
+    result = db_helper.fetch(query=user_data)
+    #result here is a list of documents(dictionary) from Mongo DB
+    
+
+    if len(result)>0:
+        print(result)
+        return render_template("consultations.html", consultations = result, 
+                               name= session["name"], email=session["email"]) 
+    else:
+        return render_template("error.html", message="Consultations not Found. Please Try Again !",name= session["name"], email=session["email"])
+    
+@web_app.route("/fetch-consultations-of-patient/<id>")
+def fetch_consultations_of_patient_from_db(id):
+
+    if len(session["email"])==0:
+        return redirect("/")
+    
+    # Create a Dictionary with Data from HTML Register Form
+    user_data = {
+        "doctor_email": session["email"],
+        "patient_id": id
+    }
+
+    db_helper.collection = db_helper.db["consultations"]
+    
+    # Fetch user in DataBase i.e. MongoDB
+    result = db_helper.fetch(query=user_data)
+    # result here, is a list of documents(dictionaries) from MongoDB
+    
+    if len(result)>0:
+        print(result)
+        return render_template("consultations.html", consultations=result, 
+                               name=session["name"], email=session["email"])
+    else:
+        return render_template("error.html", message="Consultations Not Found. Please Try Again",
+                               name=session["name"], email=session["email"])
 def main():
     #In Order to use Session Tracking, create a Secret Key
     web_app.secret_key = "doctors-app-key-v1"
