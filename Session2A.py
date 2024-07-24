@@ -312,6 +312,32 @@ def fetch_consultations_of_patient_from_db(id):
     else:
         return render_template("error.html", message="Consultations Not Found. Please Try Again",
                                name=session["name"], email=session["email"])
+    
+@web_app.route("/search-patient")
+def search_patient():
+    return render_template("search.html",name= session["name"], email = session["email"])
+
+@web_app.route("/search-patient-from-db", methods=["POST"])
+def search_patient_from_db():
+    patient_data = {
+        "email": request.form["email"],
+        "doctor_email": session["email"],
+    }
+
+    db_helper.collection = db_helper.db["patients"]
+    
+    # Fetch user in DataBase i.e. MongoDB
+    result = db_helper.fetch(query=patient_data)
+    # result here, is a list of documents(dictionaries) from MongoDB
+    
+    if len(result)>0:
+        print(result)
+        return render_template("patients.html", patients=result, 
+                               name=session["name"], email=session["email"])
+    else:
+        return render_template("error.html", message="Patients Not Found. Please Try Again",
+                               name=session["name"], email=session["email"])
+
 def main():
     #In Order to use Session Tracking, create a Secret Key
     web_app.secret_key = "doctors-app-key-v1"
