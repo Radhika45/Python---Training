@@ -332,7 +332,7 @@ def search_patient_from_db():
     
     if len(result)>0:
         print(result)
-        return render_template("patients.html", patients=result, 
+        return render_template("patient-card.html", patient=result[0], 
                                name=session["name"], email=session["email"])
     else:
         return render_template("error.html", message="Patients Not Found. Please Try Again",
