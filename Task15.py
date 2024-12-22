@@ -3,6 +3,7 @@ module to another program.'''
 # file-name = arth.py, function-name - Add
 
 from arth import Add 
+from arth import Sub
 num1=float(input("Enter first Number : "))
 num2=float(input("Enter second Number : "))
 print("Addition is : ",Add(num1,num2))
