@@ -11,7 +11,7 @@ fn1 = open(file1, 'r')
 # open other file in write mode 
 fn2 = open(file2, 'w') 
 
-# read the content of the file line by line 
+# read the content of the file line by line 3
 cont = fn1.readlines() 
 #type(cont) 
 for i in range(0, len(cont)):
