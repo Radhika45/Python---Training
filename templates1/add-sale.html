@@ -1,0 +1,109 @@
+<html>
+    <head>
+        <title>Trend Trail - Levi's Exclusive Store</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <style>
+          body {
+              margin: 0;
+              font-family: Arial, sans-serif;
+              background: url('{{ url_for("static", filename="background.jpg") }}') center / cover fixed no-repeat;
+          }
+
+          .form-label {
+              color: white; /* Change text color to white */
+              font-weight: bold; /* Make the text bold */
+          } 
+          h3{
+            color: white; /* Change Manager's Login text color to white */
+            font-weight: bold; /* Make it bold (optional, if needed) */
+            text-decoration: underline;
+          }
+          
+  </style>
+      </head>
+    <body>
+        <div class="container-fluid p-5 bg-danger text-white text-center">
+            <h1>Levi's Exclusive Store</h1>
+            <p>{{store_address}}</p>
+            <p>Welcome, Mr.{{name}}</p> 
+            <p>{{email}}</p>
+            <p>Add Sale Record for {{customer_name}}</p>
+        </div>
+
+        <div class="container-fluid p-5">
+          <nav class="navbar navbar-expand-sm bg-light navbar-light">
+            <div class="container-fluid">
+              <!--Links-->
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                  <a class="nav-link " href="/fetch-customers">View Customers</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/fetch-sales">View Sale Records</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link " href="/search-customer">Search Customer</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link " href="/logout">Logout</a>
+                </li>
+              </ul>
+            </div>
+          </nav>
+        </div>
+
+        <div class="container-fluid p-5">
+            <h3><center>ADD NEW SALE RECORD</center></h3>
+            
+            <form action="/add-sale-in-db", method ="post">
+                
+                <div class="mb-3">
+                    <label for="item_name" class="form-label">Item Name:</label>
+                    <input type="text" class="form-control" id="item_name" placeholder="Enter Item Name" name="item_name">
+                  </div>
+    
+                  <div class="mb-3">
+                    <label for="item_code" class="form-label">Item Code:</label>
+                    <input type="text" class="form-control" id="item_code" placeholder="Enter Item Code" name="item_code">
+                  </div>
+    
+                  <div class="mb-3">
+                    <label for="quantity" class="form-label">Quantity:</label>
+                    <input type="text" class="form-control" id="quantity" placeholder="Enter Quantity" name="quantity">
+                  </div>
+    
+                  <div class="mb-3">
+                    <label for="mrp" class="form-label">MRP:</label>
+                    <input type="text" class="form-control" id="mrp" placeholder="Enter MRP" name="mrp">
+                  </div>
+    
+                  <div class="mb-3">
+                    <label for="net_amount" class="form-label">Net Amount:</label>
+                    <input type="text" class="form-control" id="net_amount" placeholder="Enter Net Amount" name="net_amount">
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="coupon_applicable" class="form-label">Coupon Applicable:</label>
+                    <input type="date" class="form-control" id="coupon_applicable" placeholder="Enter Coupon Applicable Date if/any" name="coupon_applicable">
+                  </div>
+                
+    
+                  <div class="mb-3">
+                    <label for="retail_offer" class="form-label">Retail Offer:</label>
+                    <input type="text" class="form-control" id="retail_offer" placeholder="Enter Retail Offer" name="retail_offer">
+                  </div>
+                
+                <button type="submit" class="btn btn-danger">Add Sale Record</button>
+              </form>
+           
+         </div>
+         <footer class="footer" style="text-align: center; color: whitesmoke; font-weight: bold;">
+          <center>  © 2024, Levis India Store </center>
+        </footer>
+         
+    </body>
+</html>
