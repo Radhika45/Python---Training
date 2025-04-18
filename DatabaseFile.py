@@ -8,7 +8,7 @@ class Database:
           self.connection= db.connect(
                
                user="root",
-               password="Radhika9$",
+               password="<password>",
                host="127.0.0.1",
                database="gw2024pds"
           )  
