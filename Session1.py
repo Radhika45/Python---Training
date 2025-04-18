@@ -11,7 +11,7 @@ from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 import certifi
 
-uri = "mongodb+srv://radhika:radhika9@cluster0.ku8ndcy.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+uri = "mongodb+srv://radhika:<password>@cluster0.ku8ndcy.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 
 ca = certifi.where()
 # Create a new client and connect to the server
