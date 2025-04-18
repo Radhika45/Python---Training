@@ -5,7 +5,7 @@ import certifi
 class MongoDBHelper:
     #Driver Code upto print(e)
     def __init__(self,collection="users"):
-        uri = "mongodb+srv://radhika:radhika9@cluster0.ku8ndcy.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+        uri = "mongodb+srv://radhika:<password>@cluster0.ku8ndcy.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
         
         #Only if you face SSL error
         ca = certifi.where()
